@@ -4,9 +4,12 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 
 $app->get('/{width}/{height}', function(Request $request, Silex\Application $app, $width, $height) {
 
-  $image = $app['db']->fetchAssoc("SELECT filename FROM images ORDER BY rand() LIMIT 1");
+  $clause = $request->get('image') ? "WHERE id = ?" : "ORDER BY rand() LIMIT 1";
 
-  $placeholder = $app['cache']->fetch($cachekey = "{$width}:{$height}");
+
+  $image = $app['db']->fetchAssoc("SELECT filename FROM images {$clause}", [$request->get('image')]);
+
+  $placeholder = $app['cache']->fetch($cachekey = "{$width}:{$height}:{$request->get('image')}");
 
   if ($placeholder === false) {
     $placeholder = $app['image']
