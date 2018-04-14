@@ -21,7 +21,17 @@ $app->register(new Silex\Provider\DoctrineServiceProvider, [
   ]
 ]);
 
+$app->register(new App\Providers\UploadcareProvider);
+
 $app->get('/', function () use ($app) {
+
+  
+
+  $images = $app['db']->prepare("SELECT * FROM aws_images");
+  $images->execute();
+
+  $images = $images->fetchAll(\PDO::FETCH_CLASS, \App\Models\Image::class);
+
   return $app['twig']->render('home.twig');
 });
 
