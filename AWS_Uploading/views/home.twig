@@ -2,5 +2,5 @@
 
 
 {% block main %}
-  Home
+  {{ app.uploadcare.widget.getInputTag('file_id') | raw }}
 {% endblock %}
