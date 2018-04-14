@@ -135,6 +135,13 @@ class ComposerStaticInit7662d203c189181c53ad3353bac123df
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
             ),
         ),
+        'M' => 
+        array (
+            'Moust\\Silex' => 
+            array (
+                0 => __DIR__ . '/..' . '/moust/silex-cache/src',
+            ),
+        ),
         'D' => 
         array (
             'Doctrine\\DBAL\\' => 

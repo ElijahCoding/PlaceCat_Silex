@@ -7,6 +7,13 @@ $app = new Silex\Application([
   'debug' => true
 ]);
 
+$app->register(new Moust\Silex\Provider\CacheServiceProvider, [
+  'cache.options' => [
+    'driver' => 'file',
+    'cache_dir' => __DIR__ . '/../cache/images'
+  ]
+]);
+
 $app->register(new Silex\Provider\DoctrineServiceProvider, [
     'db.options' => [
         'driver' => 'pdo_mysql',
