@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Request;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Silex\Application;
@@ -23,10 +25,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider, [
 
 $app->register(new App\Providers\UploadcareProvider);
 
+$app->register(new Silex\Provider\UrlGeneratorServiceProvider);
+
 $app->get('/', function () use ($app) {
-
-  
-
   $images = $app['db']->prepare("SELECT * FROM aws_images");
   $images->execute();
 
@@ -34,5 +35,9 @@ $app->get('/', function () use ($app) {
 
   return $app['twig']->render('home.twig');
 });
+
+$app->post('/upload', function(Request $request) use ($app) {
+  var_dump($request);
+})->bind('image.upload');
 
 $app->run();
