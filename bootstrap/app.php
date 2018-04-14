@@ -18,4 +18,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider, [
     ]
 ]);
 
+$app->register(new App\Providers\ImageServiceProvider);
+
 require __DIR__ . '/../routes/web.php';
