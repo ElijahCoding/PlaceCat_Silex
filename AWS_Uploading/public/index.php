@@ -37,7 +37,23 @@ $app->get('/', function () use ($app) {
 });
 
 $app->post('/upload', function(Request $request) use ($app) {
-  var_dump($request);
+  if ($request->get('file_id') === '') {
+        return $app->redirect($app['url_generator']->generate('home'));
+    }
+
+    $file = $app['uploadcare']->getFile($request->get('file_id'));
+
+    $store = $app['db']->prepare("
+        INSERT INTO images (hash, url, created_at)
+        VALUES (:hash, :url, NOW())
+    ");
+
+    $store->execute([
+        'hash' => bin2hex(random_bytes(20)),
+        'url' => $file->getUrl(),
+    ]);
+
+    return $app->redirect($app['url_generator']->generate('home'));
 })->bind('image.upload');
 
 $app->run();
