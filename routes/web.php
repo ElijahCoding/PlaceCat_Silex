@@ -6,11 +6,18 @@ $app->get('/{width}/{height}', function(Request $request, Silex\Application $app
 
   $image = $app['db']->fetchAssoc("SELECT filename FROM images ORDER BY rand() LIMIT 1");
 
-  $placeholder = $app['image']
-               ->make(__DIR__ . '/../public/img/' . $image['filename'])
-               ->fit($width, $height)
-               ->greyscale()
-               ->response('png');
+  $placeholder = $app['cache']->fetch($cachekey = "{$width}:{$height}");
+
+  if ($placeholder === false) {
+    $placeholder = $app['image']
+                 ->make(__DIR__ . '/../public/img/' . $image['filename'])
+                 ->fit($width, $height)
+                 ->greyscale()
+                 ->response('png');
+
+    $app['cache']->store($cachekey, $placeholder);
+  }
+
 
   return new Response($placeholder, 200, [
     'Content-Type' => 'image/png'
