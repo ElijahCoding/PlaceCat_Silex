@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>AwesomeImage</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>AwesomeImage</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
-    <link rel="stylesheet" href="{{ app.request.baseUrl }}/css/app.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
+        <link rel="stylesheet" href="{{ app.request.baseUrl }}/css/app.css">
 
-    <script>
-        UPLOADCARE_LIVE = false;
-        UPLOADCARE_IMAGES_ONLY = true;
-        UPLOADCARE_CROP = 'free';
-    </script>
+        <script>
+            UPLOADCARE_LIVE = false;
+            UPLOADCARE_IMAGES_ONLY = true;
+            UPLOADCARE_CROP = 'free';
+        </script>
 
-    {{ app.uploadcare.widget.getScriptTag | raw }}
-  </head>
-  <body>
-    <div class="container">
-      {% block main %}{% endblock %}
-    </div>
+        {{ app.uploadcare.widget.getScriptTag | raw }}
+    </head>
+    <body>
+        <div class="container">
+            {% block main %}{% endblock %}
+        </div>
 
-    {% block scripts %}{% endblock %}
-  </body>
+        {% block scripts %}{% endblock %}
+    </body>
 </html>
