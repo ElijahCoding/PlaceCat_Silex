@@ -13,34 +13,33 @@ $app->register(new Silex\Provider\TwigServiceProvider, [
 ]);
 
 $app->register(new Silex\Provider\DoctrineServiceProvider, [
-  'db.options' => [
-      'driver' => 'pdo_mysql',
-      'host' => 'localhost',
-      'dbname' => 'placecat',
-      'user' => 'root',
-      'password' => '',
-      'charset' => 'utf8',
-  ]
+    'db.options' => [
+        'driver' => 'pdo_mysql',
+        'host' => 'localhost',
+        'dbname' => 'placecat',
+        'user' => 'root',
+        'password' => '',
+        'charset' => 'utf8',
+    ]
 ]);
 
-$app->register(new App\Providers\UploadcareProvider);
+$app->register(new AI\Providers\UploadcareProvider);
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider);
 
 $app->get('/', function () use ($app) {
-  $images = $app['db']->prepare("SELECT * FROM images");
+    $images = $app['db']->prepare("SELECT * FROM images");
     $images->execute();
 
-    $images = $images->fetchAll(\PDO::FETCH_CLASS, \App\Models\Image::class);
+    $images = $images->fetchAll(\PDO::FETCH_CLASS, \AI\Models\Image::class);
 
     return $app['twig']->render('home.twig', [
         'images' => $images,
     ]);
+})->bind('home');
 
-});
-
-$app->post('/upload', function(Request $request) use ($app) {
-  if ($request->get('file_id') === '') {
+$app->post('/upload', function (Request $request) use ($app) {
+    if ($request->get('file_id') === '') {
         return $app->redirect($app['url_generator']->generate('home'));
     }
 
